@@ -1,51 +1,35 @@
-'use client';
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import clsx from 'clsx';
+import {
+  UserGroupIcon,
+  HomeIcon,
+  DocumentDuplicateIcon,
+} from '@heroicons/react/24/outline';
 
+// Map of links to display in the side navigation.
+// Depending on the size of the application, this would be stored in a database.
 const links = [
+  { name: 'Home', href: '/dashboard', icon: HomeIcon },
   {
-    name: "Home",
-    href: "/dashboard",
-    icon: "/home.svg",
+    name: 'Invoices',
+    href: '/dashboard/invoices',
+    icon: DocumentDuplicateIcon,
   },
-  {
-    name: "Invoices",
-    href: "/dashboard/invoices",
-    icon: "/invoices.svg",
-  },
-  {
-    name: "Customers",
-    href: "/dashboard/customers",
-    icon: "/customers.svg",
-  },
+  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {
-  const pathName = usePathname();
   return (
     <>
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
-          <Link
+          <a
             key={link.name}
             href={link.href}
-            className={clsx(
-              "flex items-center px-2 py-2 hover:cursor-pointer hover:bg-gray-400",
-              {
-                "bg-gray-400 text-blue-600": pathName == link.href,
-              },)}
+            className="flex h-[48px] p-3 grow items-center justify-center gap-2 bg-white  text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start"
           >
-            <Image
-              src={link.icon}
-              alt=""
-              width={20}
-              height={20}
-            />
-            <p className="px-2">{link.name}</p>
-          </Link>
+            <LinkIcon className="w-6" />
+            <p className="hidden md:block">{link.name}</p>
+          </a>
         );
       })}
     </>

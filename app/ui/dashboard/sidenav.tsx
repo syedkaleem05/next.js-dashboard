@@ -1,23 +1,35 @@
-import { lusitana } from "@/app/ui/fonts";
-import Image from "next/image";
-import NavLinks from "@/app/ui/dashboard/nav-links";
+import Link from 'next/link';
+import NavLinks from '@/app/ui/dashboard/nav-links';
+import AcmeLogo from '@/app/ui/acme-logo';
+import { PowerIcon } from '@heroicons/react/24/outline';
+import { signOut } from 'next-auth/react';
 
 export default function SideNav() {
   return (
-    <main className="flex min-h-screen flex-col bg-gray-600">
-      <div className="flex shrink-0 items-end rounded-b-md bg-blue-500 p-1 md:h-52">
-        <Image
-          src="/globe.svg"
-          alt="Globe"
-          width={50}
-          height={50}
-        />
-        <p className={`${lusitana.className} text-4xl`}>
-          Acme
-        </p>
+    <div className="flex h-full flex-col">
+      <Link
+        className=" flex h-20 items-end justify-start bg-blue-600 p-4 md:h-40"
+        href="/"
+      >
+        <div className="w-32 text-white md:w-40">
+          <AcmeLogo />
+        </div>
+      </Link>
+      <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0">
+        <NavLinks />
+        <div className="hidden h-auto w-full grow bg-white md:block"></div>
+          <form
+          action={async () => {
+            'use server';
+            await signOut({ redirectTo: '/' });
+          }}
+        >
+          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+            <PowerIcon className="w-6" />
+            <div className="hidden md:block">Sign Out</div>
+          </button>
+        </form>
       </div>
-
-      <NavLinks />
-    </main>
+    </div>
   );
 }
